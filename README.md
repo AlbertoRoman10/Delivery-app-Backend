@@ -14,7 +14,7 @@ En este proyecto estaremos trabajando el lado del BackEnd del mismo proyecto enf
 
 ## Contribuciones y Agradecimientos
 
-Queremos agradecer especialmente a Matias Maza por contribuir en parte del código durante el desarrollo inicial del proyecto.
+Queremos agradecer especialmente a [Matias Maza](https://github.com/matiasmaza-crypto) por contribuir en parte del código durante el desarrollo inicial del proyecto.
 
 ## Tecnologías utilizadas
 
