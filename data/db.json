@@ -1,0 +1,383 @@
+{
+    "categories": [
+    {
+        "id": "hamburguesas",
+        "numero": "01",
+        "nombre": "Hamburguesas",
+        "imagen": "/media/producto1.avif",
+        "activa": true
+    },
+    {
+        "id": "pizzas",
+        "numero": "02",
+        "nombre": "Pizzas",
+        "imagen": "/media/producto2.jpg",
+        "activa": true
+    },
+    {
+        "id": "empanadas",
+        "numero": "03",
+        "nombre": "Empanadas",
+        "imagen": "/media/producto4.jpg",
+        "activa": true
+    },
+    {
+        "id": "sanguches",
+        "numero": "04",
+        "nombre": "Sanguches",
+        "imagen": "/media/producto3.png",
+        "activa": true
+    },
+    {
+        "id": "postres",
+        "numero": "05",
+        "nombre": "Postres",
+        "imagen": "/media/producto5.webp",
+        "activa": true
+    },
+    {
+        "id": "bebidas",
+        "numero": "06",
+        "nombre": "Bebidas",
+        "imagen": "/media/producto6.jpg",
+        "activa": true
+    }
+  ],
+  "products": [
+    {
+        "id": "hamburguesa-clasica",
+        "nombre": "Hamburguesa Clásica",
+        "precio": 7500,
+        "imagen": "/media/submenu-hamburguesa-simple.jpg",
+        "ingredientes": [
+            "Pan de hamburguesa",
+            "Carne de vaca",
+            "Lechuga",
+            "Tomate",
+            "Queso"
+        ],
+        "elaboracion": "Hamburguesa preparada con carne de vaca, acompañada de vegetales frescos y queso, servida en pan de hamburguesa.",
+        "categoria": "hamburguesas",
+        "activo": true
+    },
+    {
+        "id": "hamburguesa-doble",
+        "nombre": "Hamburguesa Doble",
+        "precio": 9500,
+        "imagen": "/media/submenu-hamburguesa-doble.jpg",
+        "ingredientes": [
+        "Pan de hamburguesa",
+        "Doble carne de vaca",
+        "Queso",
+        "Lechuga",
+        "Tomate"
+      ],
+      "elaboracion": "Dos medallones de carne de vaca acompañados con queso y vegetales frescos.",
+      "categoria": "hamburguesas",
+      "activo": true
+    },
+    {
+      "id": "hamburguesa-completa",
+      "nombre": "Hamburguesa Completa",
+      "precio": 11000,
+      "imagen": "/media/submenu-hamburguesa-completa.jpg",
+      "ingredientes": [
+        "Pan de hamburguesa",
+        "Carne de vaca",
+        "Queso",
+        "Lechuga",
+        "Tomate",
+        "Jamón",
+        "Huevo"
+      ],
+      "elaboracion": "Hamburguesa completa preparada con carne, queso, jamón, huevo y vegetales frescos.",
+      "categoria": "hamburguesas",
+      "activo": true
+    },
+    {
+      "id": "pizza-muzzarella",
+      "nombre": "Pizza Muzzarella",
+      "precio": 8000,
+      "imagen": "/media/submenu-pizza-muzzarella.webp",
+      "ingredientes": [
+        "Masa de pizza",
+        "Salsa de tomate",
+        "Muzzarella",
+        "Orégano",
+        "Aceitunas"
+      ],
+      "elaboracion": "Pizza elaborada con masa casera, salsa de tomate y abundante queso muzzarella.",
+      "categoria": "pizzas",
+      "activo": true
+    },
+    {
+      "id": "pizza-napolitana",
+      "nombre": "Pizza Napolitana",
+      "precio": 10000,
+      "imagen": "/media/submenu-pizza-napolitana.jpg",
+      "ingredientes": [
+        "Masa de pizza",
+        "Salsa de tomate",
+        "Muzzarella",
+        "Tomate",
+        "Orégano"
+      ],
+      "elaboracion": "Pizza con salsa de tomate, muzzarella y rodajas de tomate fresco.",
+      "categoria": "pizzas",
+      "activo": true
+    },
+    {
+      "id": "pizza-especial",
+      "nombre": "Pizza Especial",
+      "precio": 15000,
+      "imagen": "/media/submenu-pizza-especial.jpg",
+      "ingredientes": [
+        "Masa de pizza",
+        "Salsa de tomate",
+        "Muzzarella",
+        "Jamón",
+        "Morrón",
+        "Aceitunas"
+      ],
+      "elaboracion": "Pizza especial preparada con muzzarella, jamón, morrón y aceitunas.",
+      "categoria": "pizzas",
+      "activo": true
+    },
+    {
+      "id": "empanada-carne",
+      "nombre": "Empanada de Carne",
+      "precio": 10000,
+      "imagen": "/media/submenu-empanadas-carne.jpg",
+      "ingredientes": [
+        "Masa de empanada",
+        "Carne",
+        "Cebolla",
+        "Morrón",
+        "Condimentos",
+        "Huevo"
+      ],
+      "elaboracion": "Empanada rellena con carne condimentada, cebolla, morrón y huevo.",
+      "categoria": "empanadas",
+      "activo": true
+    },
+    {
+      "id": "empanada-pollo",
+      "nombre": "Empanada de Pollo",
+      "precio": 10000,
+      "imagen": "/media/submenu-empanadas-pollo.webp",
+      "ingredientes": [
+        "Masa de empanada",
+        "Pollo",
+        "Cebolla",
+        "Morrón",
+        "Condimentos",
+        "Huevo"
+      ],
+      "elaboracion": "Empanada rellena con pollo desmenuzado, vegetales, condimentos y huevo.",
+      "categoria": "empanadas",
+      "activo": true
+    },
+    {
+      "id": "empanada-jyq",
+      "nombre": "Empanada de Jamón y Queso",
+      "precio": 8000,
+      "imagen": "/media/submenu-empanadas-jyq.jpg",
+      "ingredientes": [
+        "Masa de empanada",
+        "Jamón",
+        "Queso"
+      ],
+      "elaboracion": "Empanada rellena con una combinación de jamón y queso.",
+      "categoria": "empanadas",
+      "activo": true
+    },
+    {
+      "id": "sandwich-milanesa",
+      "nombre": "Sándwich de Milanesa",
+      "precio": 9000,
+      "imagen": "/media/submenu-sanguche-milanesa.avif",
+      "ingredientes": [
+        "Pan",
+        "Milanesa",
+        "Lechuga",
+        "Tomate",
+        "Mayonesa"
+      ],
+      "elaboracion": "Sándwich preparado con milanesa y vegetales frescos.",
+      "categoria": "sanguches",
+      "activo": true
+    },
+    {
+      "id": "sandwich-completo",
+      "nombre": "Sándwich Completo",
+      "precio": 12000,
+      "imagen": "/media/submenu-sanguche-completo.webp",
+      "ingredientes": [
+        "Pan",
+        "Milanesa",
+        "Jamón",
+        "Queso",
+        "Lechuga",
+        "Tomate",
+        "Huevo"
+      ],
+      "elaboracion": "Sándwich completo con milanesa, jamón, queso, huevo y vegetales.",
+      "categoria": "sanguches",
+      "activo": true
+    },
+    {
+      "id": "lomito",
+      "nombre": "Lomito",
+      "precio": 13000,
+      "imagen": "/media/submenu-lomito.jpg",
+      "ingredientes": [
+        "Pan",
+        "Carne de lomito",
+        "Queso",
+        "Jamon",
+        "Lechuga",
+        "Tomate",
+        "Huevo"
+      ],
+      "elaboracion": "Lomito preparado con carne, queso, jamon, huevo y vegetales frescos.",
+      "categoria": "sanguches",
+      "activo": true
+    },
+    {
+      "id": "flan-casero",
+      "nombre": "Flan Casero",
+      "precio": 7000,
+      "imagen": "/media/submenu-flan-casero.webp",
+      "ingredientes": [
+        "Leche",
+        "Huevos",
+        "Azúcar",
+        "Esencia de vainilla"
+      ],
+      "elaboracion": "Flan casero preparado con leche, huevos, azúcar y esencia de vainilla.",
+      "categoria": "postres",
+      "activo": true
+    },
+    {
+      "id": "brownie",
+      "nombre": "Brownie",
+      "precio": 6000,
+      "imagen": "/media/submenu-brownie.jpg",
+      "ingredientes": [
+        "Chocolate",
+        "Harina",
+        "Huevos",
+        "Azúcar",
+        "Manteca"
+      ],
+      "elaboracion": "Brownie de chocolate con textura húmeda y sabor intenso a cacao.",
+      "categoria": "postres",
+      "activo": true
+    },
+    {
+      "id": "cheesecake",
+      "nombre": "Cheesecake",
+      "precio": 8000,
+      "imagen": "/media/submenu-cheesecake.jpg",
+      "ingredientes": [
+        "Queso crema",
+        "Galletas",
+        "Manteca",
+        "Azúcar",
+        "Huevos"
+      ],
+      "elaboracion": "Cheesecake elaborado sobre una base de galletas y una cremosa preparación de queso.",
+      "categoria": "postres",
+      "activo": true
+    },
+    {
+      "id": "coca-cola",
+      "nombre": "Coca-Cola",
+      "precio": 2500,
+      "imagen": "/media/submenu-cocacola.jpg",
+      "ingredientes": [
+        "Coca-Cola"
+      ],
+      "elaboracion": "Bebida gaseosa Coca-Cola servida fría.",
+      "categoria": "bebidas",
+      "activo": true
+    },
+    {
+      "id": "agua",
+      "nombre": "Agua Mineral",
+      "precio": 2000,
+      "imagen": "/media/submenu-agua.jpg",
+      "ingredientes": [
+        "Agua mineral"
+      ],
+      "elaboracion": "Agua mineral embotellada.",
+      "categoria": "bebidas",
+      "activo": true
+    },
+    {
+      "id": "jugo-naranja",
+      "nombre": "Jugo Natural",
+      "precio": 2000,
+      "imagen": "/media/submenu-jugo-naranja.jpg",
+      "ingredientes": [
+        "Naranja"
+      ],
+      "elaboracion": "Jugo preparado a base de naranja.",
+      "categoria": "bebidas",
+      "activo": true
+    }
+  ],
+  "customers": [
+    {
+      "id": "71e6cd98-cb84-45c0-ad24-9b714498d2b1",
+      "nombre": "Cliente de Prueba",
+      "telefono": "3815551234",
+      "direccion": "San Miguel de Tucuman 123",
+      "email": "prueba@gmail.com",
+      "createdAt": "2026-11-10T09:12:27.507Z",
+      "updatedAt": "2026-11-10T09:12:27.507Z"
+    }
+  ],
+  "orders": [
+    {
+      "id": "f0b1e773-b32c-4ac3-81ad-cafed86ea6e0",
+      "clienteId": "71e6cd98-cb84-45c0-ad24-9b714498d2b1",
+      "cliente": {
+        "nombre": "Cliente de Prueba",
+        "telefono": "3815551234",
+        "direccion": "San Miguel de Tucuman 123"
+      },
+      "items": [
+        {
+          "productoId": "hamburguesa-clasica",
+          "nombre": "Hamburguesa Clásica",
+          "precioUnitario": 7500,
+          "cantidad": 1,
+          "subtotal": 7500
+        }
+      ],
+      "tipoEntrega": "delivery",
+      "direccionEntrega": "San Miguel de Tucuman 123",
+      "metodoPago": "efectivo",
+      "descuentoPorcentaje": 0,
+      "subtotal": 7500,
+      "descuento": 0,
+      "total": 7500,
+      "estado": "pendiente",
+      "createdAt": "2026-11-10T09:12:27.507Z",
+      "updatedAt": "2026-11-10T09:12:27.507Z"
+    }
+  ],
+  "coupons": [
+    {
+      "code": "PRIMERPEDIDO",
+      "discountPercent": 15,
+      "active": true
+    },
+    {
+      "code": "PROMO10",
+      "discountPercent": 10,
+      "active": true
+    }
+  ]
+}
