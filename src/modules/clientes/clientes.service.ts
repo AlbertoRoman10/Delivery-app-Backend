@@ -1,0 +1,6 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { randomUUID } from 'node:crypto';
+import { DatabaseService } from '../../common/database/database.service.js';
+import { CreateClienteDto } from './dto/create-cliente.dto.js';
+import { UpdateClienteDto } from './dto/update-cliente.dto.js';
+@Injectable() export class CustomersService {constructor(private readonly db:DatabaseService){} findAll(){return this.db.read('customers')} findOne(id:string){const c=this.db.read('customers').find((x:any)=>x.id===id);if(!c)throw new NotFoundException('Cliente no encontrado');return c;} async create(dto:CreateClienteDto){const now=new Date().toISOString();const c={id:randomUUID(),...dto,createdAt:now,updatedAt:now};await this.db.update('customers',[...this.db.read('customers'),c]);return c;} async update(id:string,dto:UpdateClienteDto){const rows=this.db.read('customers');const i=rows.findIndex((x:any)=>x.id===id);if(i<0)throw new NotFoundException('Cliente no encontrado');rows[i]={...rows[i],...dto,updatedAt:new Date().toISOString()};await this.db.update('customers',rows);return rows[i];} async remove(id:string){const rows=this.db.read('customers');if(!rows.some((x:any)=>x.id===id))throw new NotFoundException('Cliente no encontrado');await this.db.update('customers',rows.filter((x:any)=>x.id!==id));return {message:'Cliente eliminado'};} }

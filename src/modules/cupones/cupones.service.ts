@@ -1,0 +1,3 @@
+import { Injectable } from '@nestjs/common';
+import { DatabaseService } from '../../common/database/database.service.js';
+@Injectable() export class CouponsService {constructor(private readonly db:DatabaseService){} validate(code:string){const coupon=this.db.read('coupons').find((c:any)=>c.code===code.trim().toUpperCase()&&c.active);return coupon?{valid:true,code:coupon.code,discountPercent:coupon.discountPercent}:{valid:false,message:'El código ingresado no es válido o está vencido.'};} findAll(){return this.db.read('coupons').map((c:any)=>({code:c.code,discountPercent:c.discountPercent,active:c.active}));}}
