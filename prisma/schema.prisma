@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model categorias {
+  id        Int         @id @default(autoincrement())
+  nombre    String      @unique(map: "nombre") @db.VarChar(100)
+  productos productos[]
+}
+
+model clientes {
+  id         Int       @id @default(autoincrement())
+  usuario_id Int       @unique(map: "usuario_id")
+  nombre     String    @db.VarChar(100)
+  telefono   String    @db.VarChar(30)
+  direccion  String    @db.VarChar(200)
+  usuarios   usuarios  @relation(fields: [usuario_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "clientes_ibfk_1")
+  pedidos    pedidos[]
+}
+
+model cupones {
+  id        Int       @id @default(autoincrement())
+  codigo    String    @unique(map: "codigo") @db.VarChar(50)
+  descuento Decimal   @db.Decimal(10, 2)
+  activo    Boolean   @default(true)
+  pedidos   pedidos[]
+}
+
+model pedido_productos {
+  id              Int       @id @default(autoincrement())
+  pedido_id       Int
+  producto_id     Int
+  cantidad        Int
+  precio_unitario Decimal   @db.Decimal(10, 2)
+  pedidos         pedidos   @relation(fields: [pedido_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pedido_productos_ibfk_1")
+  productos       productos @relation(fields: [producto_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pedido_productos_ibfk_2")
+
+  @@index([pedido_id], map: "pedido_id")
+  @@index([producto_id], map: "producto_id")
+}
+
+model pedidos {
+  id               Int                @id @default(autoincrement())
+  cliente_id       Int
+  cupon_id         Int?
+  estado           String             @default("PENDIENTE") @db.VarChar(30)
+  fecha            DateTime           @default(now()) @db.DateTime(0)
+  pedido_productos pedido_productos[]
+  clientes         clientes           @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pedidos_ibfk_1")
+  cupones          cupones?           @relation(fields: [cupon_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "pedidos_ibfk_2")
+
+  @@index([cliente_id], map: "cliente_id")
+  @@index([cupon_id], map: "cupon_id")
+}
+
+model productos {
+  id               Int                @id @default(autoincrement())
+  categoria_id     Int
+  nombre           String             @db.VarChar(120)
+  precio           Decimal            @db.Decimal(10, 2)
+  stock            Int                @default(0)
+  pedido_productos pedido_productos[]
+  categorias       categorias         @relation(fields: [categoria_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "productos_ibfk_1")
+
+  @@index([categoria_id], map: "categoria_id")
+}
+
+model roles {
+  id       Int        @id @default(autoincrement())
+  nombre   String     @unique(map: "nombre") @db.VarChar(50)
+  usuarios usuarios[]
+}
+
+model usuarios {
+  id       Int       @id @default(autoincrement())
+  rol_id   Int
+  email    String    @unique(map: "email") @db.VarChar(150)
+  password String    @db.VarChar(255)
+  clientes clientes?
+  roles    roles     @relation(fields: [rol_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "usuarios_ibfk_1")
+
+  @@index([rol_id], map: "rol_id")
+}
