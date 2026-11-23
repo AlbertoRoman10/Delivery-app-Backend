@@ -1,19 +1,6 @@
-import { IsEmail, IsInt, IsOptional, IsString, MaxLength, Min, MinLength } from 'class-validator';
 
-export class UpdateUserDto {
-  @IsOptional()
-  @IsEmail()
-  @MaxLength(150)
-  email?: string;
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateUserDto } from './create-user.dto.js';
 
-  @IsOptional()
-  @IsString()
-  @MinLength(8)
-  @MaxLength(72)
-  password?: string;
-
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  rolId?: number;
-}
+// Permite modificar uno o varios datos del usuario.
+export class UpdateUserDto extends PartialType(CreateUserDto) {}

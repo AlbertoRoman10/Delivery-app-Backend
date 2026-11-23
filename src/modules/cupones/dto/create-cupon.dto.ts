@@ -1,17 +1,20 @@
-﻿import {
-  IsString,
+
+import { Type } from 'class-transformer';
+import {
+  IsBoolean,
+  IsNotEmpty,
   IsNumber,
   IsOptional,
-  IsBoolean,
-  Min,
+  IsString,
   Max,
-  MinLength,
   MaxLength,
+  Min,
+  MinLength,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
 export class CreateCuponDto {
   @IsString()
+  @IsNotEmpty()
   @MinLength(3)
   @MaxLength(50)
   codigo!: string;
