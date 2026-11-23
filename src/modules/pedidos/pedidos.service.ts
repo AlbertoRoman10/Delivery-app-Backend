@@ -151,4 +151,27 @@ export class PedidosService {
       });
     });
   }
+
+    async remove(id: number) {
+  try {
+    // Primero eliminamos los productos asociados al pedido.
+    await this.prisma.pedido_productos.deleteMany({
+      where: { pedido_id: id },
+    });
+
+    // Después eliminamos el pedido.
+    return await this.prisma.pedidos.delete({
+      where: { id },
+    });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === 'P2025'
+    ) {
+      throw new NotFoundException('No existe un pedido con ese ID.');
+    }
+
+    throw error;
+  }
+}
 }

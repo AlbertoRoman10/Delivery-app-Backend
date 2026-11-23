@@ -23,6 +23,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
         user,
         password: password ?? '',
         database,
+        allowPublicKeyRetrieval: true,
       }),
     });
   }
