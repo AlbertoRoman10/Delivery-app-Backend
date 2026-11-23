@@ -10,8 +10,11 @@ import { ClientesModule } from '../clientes/clientes.module.js';
 import { PedidosModule } from '../pedidos/pedidos.module.js';
 import { CuponesModule } from '../cupones/cupones.module.js';
 
+import { PrismaModule } from '../prisma/prisma.module.js';
+
 @Module({
   imports: [
+    PrismaModule,
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     AuthModule,

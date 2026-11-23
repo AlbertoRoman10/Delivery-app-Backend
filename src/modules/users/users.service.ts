@@ -1,93 +1,178 @@
-﻿import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
+
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { hash } from 'bcrypt';
+import { Prisma } from '../../../generated/prisma/client.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 import { CreateUserDto } from './dto/create-user.dto.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
 import { User } from './entities/user.entity.js';
 
 @Injectable()
 export class UsersService {
-  private users: User[] = [];
-  private nextId = 1;
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto) {
-    const email = createUserDto.email.trim().toLowerCase();
+  // Comprobamos que el ID sea válido.
+  private validarId(id: number): number {
+    if (!Number.isSafeInteger(id) || id <= 0) {
+      throw new BadRequestException('El identificador de usuario no es válido.');
+    }
+    return id;
+  }
 
-    if (this.findByEmail(email)) {
-      throw new ConflictException('El correo electrónico ya está registrado');
+  // Datos seguros que podemos devolver sin mostrar la contraseña.
+  private readonly seleccionSegura = {
+    id: true,
+    email: true,
+    rol_id: true,
+    roles: {
+      select: {
+        id: true,
+        nombre: true,
+      },
+    },
+  } as const;
+
+  // Crear un usuario.
+  async create(dto: CreateUserDto) {
+    const rol = await this.prisma.roles.findUnique({
+      where: { id: dto.rolId },
+    });
+
+    if (!rol) {
+      throw new NotFoundException('El rol indicado no existe.');
     }
 
-    const password = await bcrypt.hash(createUserDto.password, 10);
+    try {
+      const password = await hash(dto.password, 12);
 
-    const user: User = {
-      id: this.nextId++,
-      nombre: createUserDto.nombre.trim(),
-      email,
-      password,
-    };
-
-    this.users.push(user);
-
-    return this.removePassword(user);
-  }
-
-  findAll() {
-    return this.users.map((user) => this.removePassword(user));
-  }
-
-  findOne(id: number) {
-    const user = this.findUserById(id);
-    return this.removePassword(user);
-  }
-
-  findByEmail(email: string) {
-    return this.users.find(
-      (user) => user.email === email.trim().toLowerCase(),
-    );
-  }
-
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = this.findUserById(id);
-    const changes = { ...updateUserDto };
-
-    if (changes.email) {
-      changes.email = changes.email.trim().toLowerCase();
-
-      const existingUser = this.findByEmail(changes.email);
-
-      if (existingUser && existingUser.id !== id) {
-        throw new ConflictException('El correo electrónico ya está registrado');
+      return await this.prisma.usuarios.create({
+        data: {
+          email: dto.email.toLowerCase().trim(),
+          password,
+          rol_id: dto.rolId,
+        },
+        select: this.seleccionSegura,
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new ConflictException('Ya existe un usuario con ese email.');
       }
+      throw error;
     }
-
-    if (changes.password) {
-      changes.password = await bcrypt.hash(changes.password, 10);
-    }
-
-    Object.assign(user, changes);
-
-    return this.removePassword(user);
   }
 
-  remove(id: number) {
-    const user = this.findUserById(id);
-
-    this.users = this.users.filter((item) => item.id !== id);
-
-    return { message: `Usuario #${user.id} eliminado` };
+  // Obtener todos los usuarios.
+  async findAll() {
+    return this.prisma.usuarios.findMany({
+      select: {
+        ...this.seleccionSegura,
+        clientes: {
+          select: {
+            id: true,
+            nombre: true,
+            telefono: true,
+            direccion: true,
+          },
+        },
+      },
+      orderBy: { id: 'asc' },
+    });
   }
 
-  private findUserById(id: number) {
-    const user = this.users.find((item) => item.id === id);
+  // Obtener un usuario por su ID.
+  async findOne(id: number) {
+    const usuario = await this.prisma.usuarios.findUnique({
+      where: { id: this.validarId(id) },
+      select: {
+        ...this.seleccionSegura,
+        clientes: true,
+      },
+    });
 
-    if (!user) {
-      throw new NotFoundException(`Usuario #${id} no encontrado`);
+    if (!usuario) {
+      throw new NotFoundException('El usuario no existe.');
     }
 
-    return user;
+    return usuario;
   }
 
-  private removePassword(user: User) {
-    const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+  // Modificar los datos de un usuario.
+  async update(id: number, dto: UpdateUserDto) {
+    const usuarioId = this.validarId(id);
+
+    await this.findOne(usuarioId);
+
+    const data: Prisma.usuariosUpdateInput = {};
+
+    if (dto.email !== undefined) {
+      data.email = dto.email.toLowerCase().trim();
+    }
+
+    if (dto.password !== undefined) {
+      data.password = await hash(dto.password, 12);
+    }
+
+    if (dto.rolId !== undefined) {
+      const rol = await this.prisma.roles.findUnique({
+        where: { id: dto.rolId },
+      });
+
+      if (!rol) {
+        throw new NotFoundException('El rol indicado no existe.');
+      }
+
+      data.roles = {
+        connect: { id: dto.rolId },
+      };
+    }
+
+    try {
+      return await this.prisma.usuarios.update({
+        where: { id: usuarioId },
+        data,
+        select: this.seleccionSegura,
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new ConflictException('Ya existe otro usuario con ese email.');
+      }
+      throw error;
+    }
+  }
+
+  // Eliminar un usuario.
+  async remove(id: number) {
+    const usuarioId = this.validarId(id);
+
+    await this.findOne(usuarioId);
+
+    const cliente = await this.prisma.clientes.findUnique({
+      where: { usuario_id: usuarioId },
+    });
+
+    if (cliente) {
+      throw new ConflictException(
+        'No se puede eliminar un usuario asociado a un cliente.',
+      );
+    }
+
+    await this.prisma.usuarios.delete({
+      where: { id: usuarioId },
+    });
+
+    return {
+      mensaje: 'Usuario eliminado correctamente.',
+    };
   }
 }

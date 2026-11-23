@@ -1,28 +1,42 @@
+
 import {
-    IsEmail,
-    IsNotEmpty,
-    IsString,
-    MaxLength,
-    MinLength,
+  IsEmail,
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  Min,
+  MinLength,
 } from 'class-validator';
 
 export class CreateUserDto {
-    @IsString({ message: 'El nombre debe ser un texto.' })
-    @IsNotEmpty({ message: 'El nombre es obligatorio.' })
-    @MinLength(2, { message: 'El nombre debe tener al menos 2 caracteres.' })
-    @MaxLength(80, { message: 'El nombre no puede superar los 80 caracteres.' })
-    nombre: string;
+  @IsEmail({}, {
+    message: 'El correo electrónico debe tener un formato válido.',
+  })
+  @MaxLength(150, {
+    message: 'El correo electrónico no puede superar los 150 caracteres.',
+  })
+  email!: string;
 
-    @IsEmail({}, { message: 'El correo electrónico debe tener un formato válido.' })
-    email: string;
+  @IsString({
+    message: 'La contraseña debe ser un texto.',
+  })
+  @IsNotEmpty({
+    message: 'La contraseña es obligatoria.',
+  })
+  @MinLength(8, {
+    message: 'La contraseña debe tener al menos 8 caracteres.',
+  })
+  @MaxLength(72, {
+    message: 'La contraseña no puede superar los 72 caracteres.',
+  })
+  password!: string;
 
-    @IsString({ message: 'La contraseña debe ser un texto.' })
-    @IsNotEmpty({ message: 'La contraseña es obligatoria.' })
-    @MinLength(8, {
-        message: 'La contraseña debe tener al menos 8 caracteres.',
-    })
-    @MaxLength(128, {
-        message: 'La contraseña no puede superar los 128 caracteres.',
-    })
-    password: string;
+  @IsInt({
+    message: 'El rol debe ser un número entero.',
+  })
+  @Min(1, {
+    message: 'El ID del rol debe ser mayor que cero.',
+  })
+  rolId!: number;
 }
