@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Patch, Param, ParseIntPipe } from '@nestjs/common';
 import { IsBoolean, IsNumber, IsOptional, IsString, Matches, Max, Min } from 'class-validator';
 import { CuponesService } from './cupones.service.js';
 import { ValidateCuponDto } from './dto/validate-cupon.dto.js';
+import { UpdateCuponDto } from './dto/update-cupon.dto.js';
 
 class CreateCuponDto {
   @IsString()
@@ -36,4 +37,9 @@ export class CuponesController {
   create(@Body() dto: CreateCuponDto) {
     return this.cuponesService.create(dto);
   }
+
+  @Patch(':id')
+  desactivar(@Param('id', ParseIntPipe) id: number) {
+  return this.cuponesService.desactivar(id);
+}
 }

@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { Prisma } from '../../../generated/prisma/client.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { ValidateCuponDto } from './dto/validate-cupon.dto.js';
+import { UpdateCuponDto } from './dto/update-cupon.dto.js';
 
 @Injectable()
 export class CuponesService {
@@ -45,6 +46,30 @@ export class CuponesService {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         throw new BadRequestException('Ya existe un cupon con ese codigo.');
       }
+      throw error;
+    }
+  }
+
+  async desactivar(id: number) {
+    try {
+      return await this.prisma.cupones.update({
+        where: { id },
+        data: { activo: false },
+        select: {
+          id: true,
+          codigo: true,
+          descuento: true,
+          activo: true,
+        },
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException('No existe un cupón con ese ID.');
+      }
+
       throw error;
     }
   }
