@@ -1,11 +1,9 @@
-import { Module } from '@nestjs/common';
-
+﻿import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
-
 import { UsersModule } from '../users/users.module.js';
 import { AuthModule } from '../auth/auth.module.js';
-
 import { CategoriasModule } from '../categorias/categorias.module.js';
 import { ProductosModule } from '../productos/productos.module.js';
 import { ClientesModule } from '../clientes/clientes.module.js';
@@ -17,6 +15,7 @@ import { PrismaModule } from '../prisma/prisma.module.js';
 @Module({
   imports: [
     PrismaModule,
+    ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     AuthModule,
     CategoriasModule,
